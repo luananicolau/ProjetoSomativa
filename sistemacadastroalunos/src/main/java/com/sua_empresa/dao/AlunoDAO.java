@@ -92,12 +92,12 @@ public class AlunoDAO {
         return aluno;
     }
 
-    public List<Aluno> listarAlunosPorCurso(String cursoNome) {
+    public List<Aluno> listarAlunosPorCurso(int cursoId) {
         List<Aluno> alunos = new ArrayList<>();
         String sql = "SELECT * FROM alunos WHERE curso_id = (SELECT id FROM cursos WHERE nome = ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cursoNome);
+            stmt.setLong(1, cursoId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

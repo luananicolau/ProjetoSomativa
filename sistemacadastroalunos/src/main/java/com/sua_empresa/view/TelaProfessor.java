@@ -13,10 +13,10 @@ import java.util.List;
 
 public class TelaProfessor extends JFrame {
     private ProfessorController professorController;
-    private JPanel panelAlunos; // Mover a declaração para classe para poder limpar o painel
+    private JPanel panelAlunos; // Mover a declaração para a classe para poder limpar o painel
 
-    public TelaProfessor(AlunoDAO alunoDAO) {
-        professorController = new ProfessorController();
+    public TelaProfessor(ProfessorController professorController) {
+        this.professorController = professorController; // Receber controller pelo construtor
 
         // Configurações da tela
         setTitle("Sistema de Boletim Escolar - Professor");
@@ -31,7 +31,12 @@ public class TelaProfessor extends JFrame {
     }
 
     public void mostrarFormularioGerarBoletim() {
-        List<Curso> cursos = professorController.getCursoDao().listarCursos(); // Obtém a lista de cursos
+        List<Curso> cursos = professorController.listarCursos(); // Obtém a lista de cursos
+
+        if (cursos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum curso encontrado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         JComboBox<Curso> comboCursos = new JComboBox<>(cursos.toArray(new Curso[0]));
         comboCursos.addActionListener(new ActionListener() {
@@ -89,6 +94,9 @@ public class TelaProfessor extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TelaProfessor(null));
+        // Supondo que você tenha uma implementação da conexão com o banco de dados
+        // e um ProfessorController corretamente configurado
+        ProfessorController professorController = new ProfessorController(); // Instanciar corretamente
+        SwingUtilities.invokeLater(() -> new TelaProfessor(professorController));
     }
 }

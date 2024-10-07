@@ -29,4 +29,9 @@ public class AlunoDAO {
         throw new UnsupportedOperationException("Unimplemented method 'excluir'");
     }
 
+    public void adicionarAluno(Aluno novoAluno) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'adicionarAluno'");
+    }
+
 }
