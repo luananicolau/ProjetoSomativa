@@ -60,7 +60,7 @@ public class TelaAdministrador extends JFrame {
             String curso = textCurso.getText();
             String matricula = textMatricula.getText();
 
-            Aluno aluno = new Aluno(nome, idade, curso, matricula, idade);
+            Aluno aluno = new Aluno(idade, nome, idade, curso, matricula, idade);
             try {
                 alunoDAO.cadastrar(aluno);
                 JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso!");

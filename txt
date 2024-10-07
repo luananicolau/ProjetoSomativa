@@ -35,3 +35,8 @@ Idade: 90
 Curso: Dev
 Matrícula: 11
 -------------------
+Nome: Pedro
+Idade: 17
+Curso: Engenharia
+Matrícula: 3
+-------------------

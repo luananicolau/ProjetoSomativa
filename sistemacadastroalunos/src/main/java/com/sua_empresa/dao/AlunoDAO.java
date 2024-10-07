@@ -1,7 +1,6 @@
 package com.sua_empresa.dao;
 
 import com.sua_empresa.model.Aluno;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,13 +28,14 @@ public class AlunoDAO {
 
     public List<Aluno> listarAlunos() {
         List<Aluno> alunos = new ArrayList<>();
-        String sql = "SELECT nome, idade, curso, matricula FROM alunos";
-        
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            
+        String sql = "SELECT * FROM alunos"; // Aqui incluí o campo 'id'
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
                 Aluno aluno = new Aluno(
+                    rs.getInt("id"),
                     rs.getString("nome"),
                     rs.getInt("idade"),
                     rs.getString("curso"),
@@ -46,7 +46,7 @@ public class AlunoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return alunos;
     }
 
@@ -78,6 +78,7 @@ public class AlunoDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 aluno = new Aluno(
+                    rs.getInt("id"),
                     rs.getString("nome"),
                     rs.getInt("idade"),
                     rs.getString("curso"),
@@ -91,24 +92,22 @@ public class AlunoDAO {
         return aluno;
     }
 
-    public void adicionarAluno(Aluno aluno) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'adicionarAluno'");
-    }
     public List<Aluno> listarAlunosPorCurso(String cursoNome) {
         List<Aluno> alunos = new ArrayList<>();
         String sql = "SELECT * FROM alunos WHERE curso_id = (SELECT id FROM cursos WHERE nome = ?)";
-        
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cursoNome);
             ResultSet rs = stmt.executeQuery();
-    
+
             while (rs.next()) {
-                Aluno aluno = new Aluno(sql, 0, sql, sql, 0);
-                aluno.setNome(rs.getString("nome"));
-                aluno.setIdade(rs.getInt("idade"));
-                aluno.setMatricula(rs.getString("matricula"));
-                aluno.setCursoId(rs.getInt("curso_id"));
+                Aluno aluno = new Aluno(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getInt("idade"),
+                    rs.getString("curso"),
+                    rs.getString("matricula"), 0
+                );
                 alunos.add(aluno);
             }
         } catch (SQLException e) {
@@ -116,5 +115,9 @@ public class AlunoDAO {
         }
         return alunos;
     }
-    
+
+    public void adicionarAluno(Aluno aluno) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'adicionarAluno'");
+    }
 }
